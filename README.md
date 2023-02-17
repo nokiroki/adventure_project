@@ -1,2 +1,2 @@
-# adventure_project
+# Adventure project
 Debt sharing bot-based project
