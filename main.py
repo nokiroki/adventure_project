@@ -11,7 +11,8 @@ from aiogram.types import (
 
 from telegram_api.utils import get_start_keyboard
 
-API_TOKEN = '5723617861:AAERU45gakxFjCM6bcZPk2oeO4DtOJ__w4Q'
+with open('api_token.txt') as f:
+    API_TOKEN = f.read()
 
 logging.basicConfig(level=logging.INFO)
 
