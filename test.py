@@ -11,4 +11,5 @@ def create_insert_task():
 
 
 if __name__ == '__main__':
-    asyncio.run(DBWorker.check_user_if_exists_and_create(12))
+    a = asyncio.run(DBWorker.get_tables_by_user(3))
+    print(a)
