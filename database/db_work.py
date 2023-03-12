@@ -12,6 +12,7 @@ class DBWorker:
 
     NAME = os.path.join('data', 'databse.db')
 
+    @staticmethod
     async def check_table_exists_and_create(user_id: int, table_name: str) -> Optional[int]:
         async with sql.connect(DBWorker.NAME) as db:
             cur = await db.cursor()
@@ -29,6 +30,7 @@ class DBWorker:
             await cur.close()
             return None
 
+    @staticmethod
     async def get_tables_by_user(user_id: int) -> Optional[Iterable[Tuple[int, str]]]:
         async with sql.connect(DBWorker.NAME) as db:
             cur = await db.cursor()
@@ -46,7 +48,15 @@ class DBWorker:
             names = await cur.fetchall()
             await cur.close()
             return list(map(lambda x: (x[0], x[1][0]), zip(ids, names)))
+    
+    @staticmethod
+    async def delete_table(user_id: int, table_id: int) -> None:
+        async with sql.connect(DBWorker.NAME) as db:
+            await db.execute('DELETE FROM tables WHERE table_id=(?)', (table_id,))
+            await db.execute('DELETE FROM user_table WHERE table_id=(?)', (table_id,))
+            await db.commit()
 
+    @staticmethod
     async def _create_new_table(user_id: int, table_name: str, db: Connection) -> int:
         await db.execute('INSERT INTO tables(table_name) VALUES (?)', (table_name,))
         cur = await db.cursor()
